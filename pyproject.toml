@@ -2,11 +2,7 @@
 # Copyright © 2024 Frequenz Energy-as-a-Service GmbH
 
 [build-system]
-requires = [
-  "setuptools == 68.1.0",
-  "setuptools_scm[toml] == 7.1.0",
-  "frequenz-repo-config[lib] == 0.9.1",
-]
+requires = ["setuptools == 69.2.0", "setuptools_scm[toml] == 7.1.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -26,8 +22,10 @@ classifiers = [
   "Typing :: Typed",
 ]
 requires-python = ">= 3.11, < 4"
-# TODO(cookiecutter): Remove and add more dependencies if appropriate
 dependencies = [
+  "betterproto[compiler] == 2.0.0b6",
+  "grpcio-tools >= 1.59.0, < 2",
+  "setuptools >= 67.6.0",
   "typing-extensions >= 4.5.0, < 5",
 ]
 dynamic = ["version"]
@@ -47,7 +45,7 @@ dev-flake8 = [
 dev-formatting = ["black == 23.9.1", "isort == 5.12.0"]
 dev-mkdocs = [
   "black == 23.9.1",
-  "Markdown==3.4.4",
+  "Markdown == 3.4.4",
   "mike == 2.0.0",
   "mkdocs-gen-files == 0.5.0",
   "mkdocs-literate-nav == 0.6.1",
@@ -59,13 +57,13 @@ dev-mkdocs = [
 dev-mypy = [
   "mypy == 1.5.1",
   "types-Markdown == 3.4.2.10",
+  # This uses >= because these are types from production dependencies, not dev
+  # dependencies, so we need to keep them in sync
+  "types-setuptools >= 67.6.0.0",
   # For checking the noxfile, docs/ script, and tests
   "setuptools-betterproto[dev-mkdocs,dev-noxfile,dev-pytest]",
 ]
-dev-noxfile = [
-  "nox == 2023.4.22",
-  "frequenz-repo-config[lib] == 0.9.1",
-]
+dev-noxfile = ["nox == 2023.4.22", "frequenz-repo-config[lib] == 0.9.1"]
 dev-pylint = [
   "pylint == 3.0.2",
   # For checking the noxfile, docs/ script, and tests
@@ -73,10 +71,9 @@ dev-pylint = [
 ]
 dev-pytest = [
   "pytest == 8.0.0",
-  "frequenz-repo-config[extra-lint-examples] == 0.9.1",
-  "pytest-mock == 3.11.1",
   "pytest-asyncio == 0.21.1",
-  "async-solipsism == 0.5",
+  "pytest-mock == 3.11.1",
+  "frequenz-repo-config[extra-lint-examples] == 0.9.1",
 ]
 dev = [
   "setuptools-betterproto[dev-mkdocs,dev-flake8,dev-formatting,dev-mkdocs,dev-mypy,dev-noxfile,dev-pylint,dev-pytest]",
