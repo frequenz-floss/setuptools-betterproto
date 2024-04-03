@@ -6,7 +6,6 @@
 # For more details on the configuration please see:
 # https://github.com/marketplace/actions/labeler
 
-# TODO(cookiecutter): Add different parts of the source
 # For example:
 #
 # "part:module":
@@ -61,3 +60,11 @@
       - CODEOWNERS
       - MANIFEST.in
       - noxfile.py
+
+"part:codegen":
+  - all:
+    - changed-files:
+      - any-glob-to-any-file:
+        - "src/setuptools_betterproto/**/*.py"
+      - all-glob-to-all-file:
+        - "!**/conftest.py"
