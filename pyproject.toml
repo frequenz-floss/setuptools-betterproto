@@ -10,10 +10,22 @@ name = "setuptools-betterproto"
 description = "A modern setuptools plugin to generate Python files from proto files using betterproto"
 readme = "README.md"
 license = { text = "MIT" }
-keywords = ["frequenz", "python", "lib", "library", "setuptools-betterproto", "setuptools", "betterproto", "proto", "protobuf", "code-generation"]
-# TODO(cookiecutter): Remove and add more classifiers if appropriate
+keywords = [
+  "betterproto",
+  "code-generation",
+  "frequenz",
+  "lib",
+  "library",
+  "plugin",
+  "proto",
+  "protobuf",
+  "protocol-buffers",
+  "python",
+  "setuptools",
+]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
+  "Framework :: Setuptools Plugin",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
