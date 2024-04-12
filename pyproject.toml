@@ -46,6 +46,9 @@ dynamic = ["version"]
 name = "Frequenz Energy-as-a-Service GmbH"
 email = "floss@frequenz.com"
 
+[project.entry-points."distutils.commands"]
+build_betterproto = "setuptools_betterproto:CompileProto"
+
 [project.optional-dependencies]
 dev-flake8 = [
   "flake8 == 7.0.0",
