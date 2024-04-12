@@ -13,6 +13,7 @@ protocol buffer files are compiled automatically before the project is built.
 import pathlib
 import subprocess
 import sys
+from typing import Iterator
 
 import setuptools
 import setuptools.command.build as _build_command
@@ -70,13 +71,17 @@ class CompileProto(setuptools.Command):
     def finalize_options(self) -> None:
         """Finalize options."""
 
+    def _expand_paths(
+        self, proto_path: pathlib.Path, proto_glob: str
+    ) -> Iterator[pathlib.Path]:
+        """Expand the paths to the proto files."""
+        return (p.relative_to(proto_path) for p in proto_path.rglob(proto_glob))
+
     def run(self) -> None:
         """Compile the Python protobuf files."""
         include_paths = list(map(pathlib.Path, self.include_paths.split(",")))
         proto_path = pathlib.Path(self.proto_path)
-        proto_files = [
-            p.relative_to(proto_path) for p in proto_path.rglob(self.proto_glob)
-        ]
+        proto_files = list(self._expand_paths(proto_path, self.proto_glob))
 
         if not proto_files:
             print(
