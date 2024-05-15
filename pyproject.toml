@@ -57,21 +57,21 @@ dev-flake8 = [
   "pydoclint == 0.4.1",
   "pydocstyle == 6.3.0",
 ]
-dev-formatting = ["black == 24.4.0", "isort == 5.13.2"]
+dev-formatting = ["black == 24.4.2", "isort == 5.13.2"]
 dev-mkdocs = [
   "Markdown == 3.6.0",
-  "black == 24.4.0",
-  "mike == 2.0.0",
+  "black == 24.4.2",
+  "mike == 2.1.1",
   "mkdocs-gen-files == 0.5.0",
   "mkdocs-literate-nav == 0.6.1",
   "mkdocs-macros-plugin == 1.0.5",
-  "mkdocs-material == 9.5.18",
-  "mkdocstrings[python] == 0.24.3",
-  "mkdocstrings-python == 1.9.2",
+  "mkdocs-material == 9.5.22",
+  "mkdocstrings[python] == 0.25.1",
+  "mkdocstrings-python == 1.10.1",
   "frequenz-repo-config[lib] == 0.9.2",
 ]
 dev-mypy = [
-  "mypy == 1.9.0",
+  "mypy == 1.10.0",
   "types-Markdown == 3.6.0.20240316",
   # This uses >= because these are types from production dependencies, not dev
   # dependencies, so we need to keep them in sync
@@ -86,8 +86,8 @@ dev-pylint = [
   "setuptools-betterproto[dev-mkdocs,dev-noxfile,dev-pytest]",
 ]
 dev-pytest = [
-  "pytest == 8.1.1",
-  "pylint == 3.1.0",                                    # We need this to check for the examples
+  "pytest == 8.2.0",
+  "pylint == 3.2.0",                                    # We need this to check for the examples
   "frequenz-repo-config[extra-lint-examples] == 0.9.2",
   "pytest-mock == 3.14.0",
   "pytest-asyncio == 0.23.6",
