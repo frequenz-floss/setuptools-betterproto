@@ -66,5 +66,5 @@
     - changed-files:
       - any-glob-to-any-file:
         - "src/setuptools_betterproto/**/*.py"
-      - all-glob-to-all-file:
+      - all-globs-to-all-files:
         - "!**/conftest.py"
