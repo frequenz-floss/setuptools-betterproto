@@ -38,7 +38,7 @@ class DefaultsTestCase:
                 "proto_path": "test_path",
                 "proto_glob": "",
                 "include_paths": ("proto",),
-                "out_dir": "generated",
+                "out_path": "generated",
             },
         ),
     ],
@@ -62,13 +62,13 @@ proto_path = "test_path"
 proto_path = "test_path"
 proto_glob = "test_glob"
 include_paths = ["test_include"]
-out_dir = "test_out"
+out_path = "test_out"
 """,
             {
                 "proto_path": "test_path",
                 "proto_glob": "test_glob",
                 "include_paths": ["test_include"],
-                "out_dir": "test_out",
+                "out_path": "test_out",
             },
         ),
     ],
@@ -105,7 +105,7 @@ def test_from_proto(
                 "proto_path": "test_path",
                 "proto_glob": "",
                 "include_paths": ("proto",),
-                "out_dir": "generated",
+                "out_path": "generated",
             },
         ),
     ],

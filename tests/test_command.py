@@ -14,7 +14,7 @@ CONFIG = ProtobufConfig(
     proto_path="test_path",
     proto_glob="*.test",
     include_paths=["test_include1", "test_include2"],
-    out_dir="test_out",
+    out_path="test_out",
 )
 
 
@@ -38,7 +38,7 @@ def test_initialize_options() -> None:
     assert command.proto_path == CONFIG.proto_path
     assert command.proto_glob == CONFIG.proto_glob
     assert command.include_paths == ",".join(CONFIG.include_paths)
-    assert command.out_dir == CONFIG.out_dir
+    assert command.out_path == CONFIG.out_path
 
 
 def test_run() -> None:
@@ -48,7 +48,7 @@ def test_run() -> None:
     command.proto_path = CONFIG.proto_path
     command.proto_glob = CONFIG.proto_glob
     command.include_paths = ",".join(CONFIG.include_paths)
-    command.out_dir = CONFIG.out_dir
+    command.out_path = CONFIG.out_path
 
     with (
         mock.patch(

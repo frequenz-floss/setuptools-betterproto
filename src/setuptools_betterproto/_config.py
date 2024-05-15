@@ -29,7 +29,7 @@ class ProtobufConfig:
     include_paths: Sequence[str] = ()
     """The paths to add to the include path when compiling the protobuf files."""
 
-    out_dir: str = "."
+    out_path: str = "."
     """The path of the root directory where the Python files will be generated."""
 
     @classmethod

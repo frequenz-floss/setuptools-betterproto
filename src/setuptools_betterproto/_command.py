@@ -33,7 +33,7 @@ class CompileProto(setuptools.Command):
     include_paths: str
     """Comma-separated list of paths to include when compiling the protobuf files."""
 
-    out_dir: str
+    out_path: str
     """The path of the root directory where the Python files will be generated."""
 
     description: str = "compile protobuf files using betterproto"
@@ -66,7 +66,7 @@ class CompileProto(setuptools.Command):
         self.proto_path = config.proto_path
         self.proto_glob = config.proto_glob
         self.include_paths = ",".join(config.include_paths)
-        self.out_dir = config.out_dir
+        self.out_path = config.out_path
 
     def finalize_options(self) -> None:
         """Finalize options."""
@@ -95,7 +95,7 @@ class CompileProto(setuptools.Command):
             "-m",
             "grpc_tools.protoc",
             *(f"-I{p}" for p in [self.proto_path, *include_paths]),
-            f"--python_betterproto_out={self.out_dir}",
+            f"--python_betterproto_out={self.out_path}",
             *map(str, proto_files),
         ]
 
