@@ -19,7 +19,7 @@ import setuptools.command.build as _build_command
 from . import _config
 
 
-class CompileProto(setuptools.Command):
+class CompileBetterproto(setuptools.Command):
     """Build the Python protobuf files."""
 
     proto_path: str
@@ -107,4 +107,4 @@ class CompileProto(setuptools.Command):
 # in the [project.entry-points.distutils.commands] section.
 # The None value is an optional function that can be used to determine if the
 # sub-command should be executed or not.
-_build_command.build.sub_commands.insert(0, ("build_betterproto", None))
+_build_command.build.sub_commands.insert(0, ("compile_betterproto", None))

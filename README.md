@@ -83,7 +83,7 @@ python -m build
 A new command to generate the files will be also added to `setuptools`, you can
 run it manually with:
 ```sh
-python -c 'import setuptools; setuptools.setup()' build_betterproto
+python -c 'import setuptools; setuptools.setup()' compile_betterproto
 ```
 
 You can also pass the configuration options via command line for quick testing,

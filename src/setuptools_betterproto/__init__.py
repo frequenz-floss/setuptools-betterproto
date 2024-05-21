@@ -3,10 +3,10 @@
 
 """A modern setuptools plugin to generate Python files from proto files using betterproto."""
 
-from ._command import CompileProto
+from ._command import CompileBetterproto
 from ._config import ProtobufConfig
 
 __all__ = [
-    "CompileProto",
+    "CompileBetterproto",
     "ProtobufConfig",
 ]

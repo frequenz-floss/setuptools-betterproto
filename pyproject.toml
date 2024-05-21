@@ -47,7 +47,7 @@ name = "Frequenz Energy-as-a-Service GmbH"
 email = "floss@frequenz.com"
 
 [project.entry-points."distutils.commands"]
-build_betterproto = "setuptools_betterproto:CompileProto"
+compile_betterproto = "setuptools_betterproto:CompileBetterproto"
 
 [project.optional-dependencies]
 dev-flake8 = [

@@ -9,7 +9,7 @@ from unittest import mock
 from setuptools import Distribution
 from typing_extensions import override
 
-from setuptools_betterproto import CompileProto, ProtobufConfig
+from setuptools_betterproto import CompileBetterproto, ProtobufConfig
 
 CONFIG = ProtobufConfig(
     proto_path="test_path",
@@ -19,11 +19,11 @@ CONFIG = ProtobufConfig(
 )
 
 
-def create_command() -> CompileProto:
+def create_command() -> CompileBetterproto:
     """Create a new instance of the command with a mocked distribution."""
     dist = mock.MagicMock(spec=Distribution)
     dist.verbose = True
-    return CompileProto(dist)
+    return CompileBetterproto(dist)
 
 
 def test_initialize_options() -> None:
