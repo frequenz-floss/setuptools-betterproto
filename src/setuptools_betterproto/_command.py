@@ -79,13 +79,18 @@ class CompileProto(setuptools.Command):
 
     def run(self) -> None:
         """Compile the Python protobuf files."""
-        include_paths = list(map(pathlib.Path, self.include_paths.split(",")))
-        proto_path = pathlib.Path(self.proto_path)
-        proto_files = list(self._expand_paths(proto_path, self.proto_glob))
+        config = _config.ProtobufConfig.from_strings(
+            proto_path=self.proto_path,
+            proto_glob=self.proto_glob,
+            include_paths=self.include_paths,
+            out_path=self.out_path,
+        )
+        proto_path = pathlib.Path(config.proto_path)
+        proto_files = list(self._expand_paths(proto_path, config.proto_glob))
 
         if not proto_files:
             print(
-                f"No proto files found in {self.proto_path}/**/{self.proto_glob}/, "
+                f"No proto files found in {config.proto_path}/**/{config.proto_glob}/, "
                 "skipping compilation of proto files."
             )
             return
@@ -94,8 +99,8 @@ class CompileProto(setuptools.Command):
             sys.executable,
             "-m",
             "grpc_tools.protoc",
-            *(f"-I{p}" for p in [self.proto_path, *include_paths]),
-            f"--python_betterproto_out={self.out_path}",
+            *(f"-I{p}" for p in [config.proto_path, *config.include_paths]),
+            f"--python_betterproto_out={config.out_path}",
             *map(str, proto_files),
         ]
 
