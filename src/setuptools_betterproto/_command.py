@@ -36,6 +36,9 @@ class CompileProto(setuptools.Command):
     out_path: str
     """The path of the root directory where the Python files will be generated."""
 
+    config: _config.ProtobufConfig
+    """The configuration object for the command."""
+
     description: str = "compile protobuf files using betterproto"
     """Description of the command."""
 
@@ -61,15 +64,21 @@ class CompileProto(setuptools.Command):
 
     def initialize_options(self) -> None:
         """Initialize options."""
-        config = _config.ProtobufConfig.from_pyproject_toml()
+        self.config = _config.ProtobufConfig.from_pyproject_toml()
 
-        self.proto_path = config.proto_path
-        self.proto_glob = config.proto_glob
-        self.include_paths = ",".join(config.include_paths)
-        self.out_path = config.out_path
+        self.proto_path = self.config.proto_path
+        self.proto_glob = self.config.proto_glob
+        self.include_paths = ",".join(self.config.include_paths)
+        self.out_path = self.config.out_path
 
     def finalize_options(self) -> None:
         """Finalize options."""
+        self.config = _config.ProtobufConfig.from_strings(
+            proto_path=self.proto_path,
+            proto_glob=self.proto_glob,
+            include_paths=self.include_paths,
+            out_path=self.out_path,
+        )
 
     def _expand_paths(
         self, proto_path: pathlib.Path, proto_glob: str
@@ -79,19 +88,13 @@ class CompileProto(setuptools.Command):
 
     def run(self) -> None:
         """Compile the Python protobuf files."""
-        config = _config.ProtobufConfig.from_strings(
-            proto_path=self.proto_path,
-            proto_glob=self.proto_glob,
-            include_paths=self.include_paths,
-            out_path=self.out_path,
-        )
-        proto_path = pathlib.Path(config.proto_path)
-        proto_files = list(self._expand_paths(proto_path, config.proto_glob))
+        proto_path = pathlib.Path(self.config.proto_path)
+        proto_files = list(self._expand_paths(proto_path, self.config.proto_glob))
 
         if not proto_files:
             print(
-                f"No proto files found in {config.proto_path}/**/{config.proto_glob}/, "
-                "skipping compilation of proto files."
+                f"No proto files found in {self.config.proto_path} with glob "
+                f"{self.config.proto_glob}, skipping compilation of proto files."
             )
             return
 
@@ -99,8 +102,8 @@ class CompileProto(setuptools.Command):
             sys.executable,
             "-m",
             "grpc_tools.protoc",
-            *(f"-I{p}" for p in [config.proto_path, *config.include_paths]),
-            f"--python_betterproto_out={config.out_path}",
+            *(f"-I{p}" for p in [self.config.proto_path, *self.config.include_paths]),
+            f"--python_betterproto_out={self.config.out_path}",
             *map(str, proto_files),
         ]
 
