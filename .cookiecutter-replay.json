@@ -14,9 +14,7 @@
     "pypi_package_name": "setuptools-betterproto",
     "github_repo_name": "setuptools-betterproto",
     "default_codeowners": "(like @some-org/some-team; defaults to a team based on the repo type)",
-    "_template": "gh:frequenz-floss/frequenz-repo-config-python",
-    "_repo_dir": "/home/luca/.cookiecutters/frequenz-repo-config-python/cookiecutter",
-    "_checkout": "v0.x.x"
+    "_template": "gh:frequenz-floss/frequenz-repo-config-python"
   },
   "_cookiecutter": {
     "Introduction": "{{cookiecutter | introduction}}",
