@@ -5,6 +5,7 @@
 
 import dataclasses
 import logging
+import pathlib
 import tomllib
 from collections.abc import Sequence
 from typing import Any, Self
@@ -99,3 +100,9 @@ class ProtobufConfig:
             include_paths=[p.strip() for p in include_paths.split(",")],
             out_path=out_path,
         )
+
+    @property
+    def expanded_proto_files(self) -> list[str]:
+        """The files in the `proto_path` expanded according to the configured glob."""
+        proto_path = pathlib.Path(self.proto_path)
+        return [str(proto_file) for proto_file in proto_path.rglob(self.proto_glob)]

@@ -10,10 +10,8 @@ It also runs the command as the first sub-command for the build command, so
 protocol buffer files are compiled automatically before the project is built.
 """
 
-import pathlib
 import subprocess
 import sys
-from typing import Iterator
 
 import setuptools
 import setuptools.command.build as _build_command
@@ -80,16 +78,9 @@ class CompileProto(setuptools.Command):
             out_path=self.out_path,
         )
 
-    def _expand_paths(
-        self, proto_path: pathlib.Path, proto_glob: str
-    ) -> Iterator[pathlib.Path]:
-        """Expand the paths to the proto files."""
-        return (p.relative_to(proto_path) for p in proto_path.rglob(proto_glob))
-
     def run(self) -> None:
         """Compile the Python protobuf files."""
-        proto_path = pathlib.Path(self.config.proto_path)
-        proto_files = list(self._expand_paths(proto_path, self.config.proto_glob))
+        proto_files = self.config.expanded_proto_files
 
         if not proto_files:
             print(
@@ -104,7 +95,7 @@ class CompileProto(setuptools.Command):
             "grpc_tools.protoc",
             *(f"-I{p}" for p in [self.config.proto_path, *self.config.include_paths]),
             f"--python_betterproto_out={self.config.out_path}",
-            *map(str, proto_files),
+            *proto_files,
         ]
 
         print(f"Compiling proto files via: {' '.join(protoc_cmd)}")
