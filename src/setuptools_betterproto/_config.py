@@ -106,3 +106,12 @@ class ProtobufConfig:
         """The files in the `proto_path` expanded according to the configured glob."""
         proto_path = pathlib.Path(self.proto_path)
         return [str(proto_file) for proto_file in proto_path.rglob(self.proto_glob)]
+
+    @property
+    def expanded_include_files(self) -> list[str]:
+        """The files in the `include_paths` expanded according to the configured glob."""
+        return [
+            str(proto_file)
+            for include_path in map(pathlib.Path, self.include_paths)
+            for proto_file in include_path.rglob(self.proto_glob)
+        ]

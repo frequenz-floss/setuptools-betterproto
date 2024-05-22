@@ -51,6 +51,7 @@ finalize_distribution_options_betterproto = "setuptools_betterproto:finalize_dis
 
 [project.entry-points."distutils.commands"]
 compile_betterproto = "setuptools_betterproto:CompileBetterproto"
+add_proto_files = "setuptools_betterproto:AddProtoFiles"
 
 [project.optional-dependencies]
 dev-flake8 = [

@@ -1,21 +1,24 @@
 # License: MIT
 # Copyright © 2024 Frequenz Energy-as-a-Service GmbH
 
-"""Setuptool hooks to build protobuf files.
+"""Setuptools commands to compile and distribute protobuf files.
 
 This module contains a setuptools command that can be used to compile protocol
-buffer files in a project.
+buffer files in a project and to add the protobuf files to the source distribution.
 
-It also runs the command as the first sub-command for the build command, so
-protocol buffer files are compiled automatically before the project is built.
+To be able to ship the proto files with the source distribution, a command to replace
+the `sdist` command is also provided. This command will copy the proto files to the
+source distribution before building it.
 """
 
 import logging
+import os
+import shutil
 import subprocess
 import sys
 
 import setuptools
-import setuptools.command.build as _build_command
+import setuptools.command.sdist
 from typing_extensions import override
 
 from . import _config
@@ -66,7 +69,7 @@ class BaseProtoCommand(setuptools.Command):
 
     @override
     def initialize_options(self) -> None:
-        """Initialize options."""
+        """Initialize options with default values."""
         self.config = _config.ProtobufConfig.from_pyproject_toml()
 
         self.proto_path = self.config.proto_path
@@ -76,7 +79,7 @@ class BaseProtoCommand(setuptools.Command):
 
     @override
     def finalize_options(self) -> None:
-        """Finalize options."""
+        """Finalize options by converting them to a ProtobufConfig object."""
         self.config = _config.ProtobufConfig.from_strings(
             proto_path=self.proto_path,
             proto_glob=self.proto_glob,
@@ -90,7 +93,7 @@ class CompileBetterproto(BaseProtoCommand):
 
     @override
     def run(self) -> None:
-        """Compile the Python protobuf files."""
+        """Compile the protobuf files to Python."""
         proto_files = self.config.expanded_proto_files
 
         if not proto_files:
@@ -113,3 +116,70 @@ class CompileBetterproto(BaseProtoCommand):
 
         _logger.info("compiling proto files via: %s", " ".join(protoc_cmd))
         subprocess.run(protoc_cmd, check=True)
+
+
+class AddProtoFiles(BaseProtoCommand):
+    """A command to add the proto files to the source distribution."""
+
+    def run(self) -> None:
+        """Copy the proto files to the source distribution."""
+        proto_files = self.config.expanded_proto_files
+        include_files = self.config.expanded_include_files
+
+        if include_files and not proto_files:
+            _logger.warning(
+                "Some proto files (%s) were found in the `include_paths` (%s), but "
+                "no proto files were found in the `proto_path`. You probably want to "
+                "check if your `proto_path` (%s) and `proto_glob` (%s) are configured "
+                "correctly. We are not adding the found include files to the source "
+                "distribution automatically!",
+                len(include_files),
+                ", ".join(self.config.include_paths),
+                self.config.proto_path,
+                self.config.proto_glob,
+            )
+            return
+
+        if not proto_files:
+            _logger.warning(
+                "No proto files were found in the `proto_path` (%s) using `proto_glob` "
+                "(%s). You probably want to check if you `proto_path` and `proto_glob` "
+                "are configured correctly. We are not adding any proto files to the "
+                "source distribution automatically!",
+                self.config.proto_path,
+                self.config.proto_glob,
+            )
+            return
+
+        dest_dir = self.distribution.get_fullname()
+
+        for file in (*proto_files, *include_files):
+            self.copy_with_directories(file, os.path.join(dest_dir, file))
+
+        _logger.info("added %s proto files", len(proto_files) + len(include_files))
+
+    def copy_with_directories(self, src: str, dest: str) -> None:
+        """Copy a file from src to dest, creating the destination's directory tree.
+
+        Any directories that do not exist in dest will be created.
+
+        Args:
+            src: The full path of the source file.
+            dest: The full path of the destination file.
+        """
+        dest_dir = os.path.dirname(dest)
+        if not os.path.exists(dest_dir):
+            _logger.debug("creating directory %s", dest_dir)
+            os.makedirs(dest_dir)
+        _logger.info("adding proto file to %s", dest)
+        shutil.copyfile(src, dest)
+
+
+class SdistWithProtoFiles(setuptools.command.sdist.sdist):
+    """A command to build the source distribution with the proto files."""
+
+    @override
+    def run(self) -> None:
+        """Add the proto files to the source distribution before building it."""
+        self.run_command("add_proto_files")
+        super().run()
