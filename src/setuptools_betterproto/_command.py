@@ -15,6 +15,7 @@ import sys
 
 import setuptools
 import setuptools.command.build as _build_command
+from typing_extensions import override
 
 from . import _config
 
@@ -61,6 +62,7 @@ class BaseProtoCommand(setuptools.Command):
     ]
     """Options of the command."""
 
+    @override
     def initialize_options(self) -> None:
         """Initialize options."""
         self.config = _config.ProtobufConfig.from_pyproject_toml()
@@ -70,6 +72,7 @@ class BaseProtoCommand(setuptools.Command):
         self.include_paths = ",".join(self.config.include_paths)
         self.out_path = self.config.out_path
 
+    @override
     def finalize_options(self) -> None:
         """Finalize options."""
         self.config = _config.ProtobufConfig.from_strings(
@@ -83,6 +86,7 @@ class BaseProtoCommand(setuptools.Command):
 class CompileBetterproto(BaseProtoCommand):
     """A command to compile the protobuf files."""
 
+    @override
     def run(self) -> None:
         """Compile the Python protobuf files."""
         proto_files = self.config.expanded_proto_files
