@@ -10,6 +10,7 @@ It also runs the command as the first sub-command for the build command, so
 protocol buffer files are compiled automatically before the project is built.
 """
 
+import logging
 import subprocess
 import sys
 
@@ -19,6 +20,7 @@ from typing_extensions import override
 
 from . import _config
 
+_logger = logging.getLogger(__name__)
 
 
 class BaseProtoCommand(setuptools.Command):
@@ -92,9 +94,11 @@ class CompileBetterproto(BaseProtoCommand):
         proto_files = self.config.expanded_proto_files
 
         if not proto_files:
-            print(
-                f"No proto files found in {self.config.proto_path} with glob "
-                f"{self.config.proto_glob}, skipping compilation of proto files."
+            _logger.warning(
+                "No proto files found in %s with glob "
+                "%s, skipping compilation of proto files.",
+                self.config.proto_path,
+                self.config.proto_glob,
             )
             return
 
@@ -107,7 +111,7 @@ class CompileBetterproto(BaseProtoCommand):
             *proto_files,
         ]
 
-        print(f"Compiling proto files via: {' '.join(protoc_cmd)}")
+        _logger.info("compiling proto files via: %s", " ".join(protoc_cmd))
         subprocess.run(protoc_cmd, check=True)
 
 
