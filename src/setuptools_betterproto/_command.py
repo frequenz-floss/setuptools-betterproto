@@ -113,11 +113,3 @@ class CompileBetterproto(BaseProtoCommand):
 
         _logger.info("compiling proto files via: %s", " ".join(protoc_cmd))
         subprocess.run(protoc_cmd, check=True)
-
-
-# This adds the build_betterproto command to the build sub-command.
-# The name of the command is mapped to the class name in the pyproject.toml file,
-# in the [project.entry-points.distutils.commands] section.
-# The None value is an optional function that can be used to determine if the
-# sub-command should be executed or not.
-_build_command.build.sub_commands.insert(0, ("compile_betterproto", None))

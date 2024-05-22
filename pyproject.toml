@@ -46,6 +46,9 @@ dynamic = ["version"]
 name = "Frequenz Energy-as-a-Service GmbH"
 email = "floss@frequenz.com"
 
+[project.entry-points."setuptools.finalize_distribution_options"]
+finalize_distribution_options_betterproto = "setuptools_betterproto:finalize_distribution_options"
+
 [project.entry-points."distutils.commands"]
 compile_betterproto = "setuptools_betterproto:CompileBetterproto"
 
