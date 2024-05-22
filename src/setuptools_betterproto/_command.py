@@ -19,8 +19,9 @@ import setuptools.command.build as _build_command
 from . import _config
 
 
-class CompileBetterproto(setuptools.Command):
-    """Build the Python protobuf files."""
+
+class BaseProtoCommand(setuptools.Command):
+    """A base class for commands that deal with protobuf files."""
 
     proto_path: str
     """The path of the root directory containing the protobuf files."""
@@ -77,6 +78,10 @@ class CompileBetterproto(setuptools.Command):
             include_paths=self.include_paths,
             out_path=self.out_path,
         )
+
+
+class CompileBetterproto(BaseProtoCommand):
+    """A command to compile the protobuf files."""
 
     def run(self) -> None:
         """Compile the Python protobuf files."""
