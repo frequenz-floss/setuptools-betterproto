@@ -98,8 +98,9 @@ class CompileBetterproto(BaseProtoCommand):
 
         if not proto_files:
             _logger.warning(
-                "No proto files found in %s with glob "
-                "%s, skipping compilation of proto files.",
+                "No proto files were found in the `proto_path` (%s) using `proto_glob` "
+                "(%s). You probably want to check if you `proto_path` and `proto_glob` "
+                "are configured correctly. We are not compiling any proto files!",
                 self.config.proto_path,
                 self.config.proto_glob,
             )
