@@ -651,19 +651,14 @@ example:</p>
 <p>You should add <a href="https://github.com/danielgtaylor/python-betterproto">betterproto</a> as a dependency too, for example:</p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;betterproto == 2.0.0b6&quot;</span><span class="p">]</span>
 </span></code></pre></div>
-<p>You probably also need to add the protobuf files to the <code>MANIFEST.in</code> file, so
-they are included in the source distribution. For example (following our
-customized example):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>recursive-include proto *.proto
-</span></code></pre></div>
 <p>Once this is done, the conversion of the proto files to Python files should be
 automatic. Just try building the package with:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>build
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python<span class="w"> </span>-m<span class="w"> </span>build
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>build
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>-m<span class="w"> </span>build
 </span></code></pre></div>
 <p>A new command to generate the files will be also added to <code>setuptools</code>, you can
 run it manually with:
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import setuptools; setuptools.setup()&#39;</span><span class="w"> </span>build_betterproto
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import setuptools; setuptools.setup()&#39;</span><span class="w"> </span>compile_betterproto
 </span></code></pre></div></p>
 <p>You can also pass the configuration options via command line for quick testing,
 try passing <code>--help</code> at the end of the command to see the available options.</p>
