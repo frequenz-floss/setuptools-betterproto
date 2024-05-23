@@ -7,8 +7,9 @@ import sys
 from unittest import mock
 
 from setuptools import Distribution
+from typing_extensions import override
 
-from setuptools_betterproto import CompileProto, ProtobufConfig
+from setuptools_betterproto import CompileBetterproto, ProtobufConfig
 
 CONFIG = ProtobufConfig(
     proto_path="test_path",
@@ -18,11 +19,11 @@ CONFIG = ProtobufConfig(
 )
 
 
-def create_command() -> CompileProto:
+def create_command() -> CompileBetterproto:
     """Create a new instance of the command with a mocked distribution."""
     dist = mock.MagicMock(spec=Distribution)
     dist.verbose = True
-    return CompileProto(dist)
+    return CompileBetterproto(dist)
 
 
 def test_initialize_options() -> None:
@@ -50,19 +51,28 @@ def test_run() -> None:
     command.include_paths = ",".join(CONFIG.include_paths)
     command.out_path = CONFIG.out_path
 
-    with (
-        mock.patch(
-            "setuptools_betterproto._command.subprocess",
-        ) as subprocess_module,
-        mock.patch.object(
-            command,
-            "_expand_paths",
-            return_value=(
-                "test_path/proto1.test",
-                "test_path/proto2.test",
-            ),
-        ),
-    ):
+    class _FakeConfig(ProtobufConfig):
+
+        @property
+        @override
+        def expanded_include_files(self) -> list[str]:
+            return ["test_include1", "test_include2"]
+
+        @property
+        @override
+        def expanded_proto_files(self) -> list[str]:
+            return ["test_path/proto1.test", "test_path/proto2.test"]
+
+    command.config = _FakeConfig(
+        proto_path=CONFIG.proto_path,
+        proto_glob=CONFIG.proto_glob,
+        include_paths=CONFIG.include_paths,
+        out_path=CONFIG.out_path,
+    )
+
+    with mock.patch(
+        "setuptools_betterproto._command.subprocess",
+    ) as subprocess_module:
         command.run()
 
     subprocess_module.run.assert_called_once_with(

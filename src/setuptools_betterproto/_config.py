@@ -5,6 +5,7 @@
 
 import dataclasses
 import logging
+import pathlib
 import tomllib
 from collections.abc import Sequence
 from typing import Any, Self
@@ -75,3 +76,42 @@ class ProtobufConfig:
 
         attrs = dict(defaults, **{k: config[k] for k in (known_keys & config_keys)})
         return dataclasses.replace(default, **attrs)
+
+    @classmethod
+    def from_strings(
+        cls, *, proto_path: str, proto_glob: str, include_paths: str, out_path: str
+    ) -> Self:
+        """Create a new configuration from plain strings.
+
+        Args:
+            proto_path: The path of the root directory containing the protobuf files.
+            proto_glob: The glob pattern to use to find the protobuf files.
+            include_paths: The paths to add to the include path when compiling the
+                protobuf files.
+            out_path: The path of the root directory where the Python files will be
+                generated.
+
+        Returns:
+            The configuration.
+        """
+        return cls(
+            proto_path=proto_path,
+            proto_glob=proto_glob,
+            include_paths=[p.strip() for p in include_paths.split(",")],
+            out_path=out_path,
+        )
+
+    @property
+    def expanded_proto_files(self) -> list[str]:
+        """The files in the `proto_path` expanded according to the configured glob."""
+        proto_path = pathlib.Path(self.proto_path)
+        return [str(proto_file) for proto_file in proto_path.rglob(self.proto_glob)]
+
+    @property
+    def expanded_include_files(self) -> list[str]:
+        """The files in the `include_paths` expanded according to the configured glob."""
+        return [
+            str(proto_file)
+            for include_path in map(pathlib.Path, self.include_paths)
+            for proto_file in include_path.rglob(self.proto_glob)
+        ]

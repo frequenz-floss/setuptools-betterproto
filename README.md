@@ -64,14 +64,6 @@ You should add [betterproto] as a dependency too, for example:
 dependencies = ["betterproto == 2.0.0b6"]
 ```
 
-You probably also need to add the protobuf files to the `MANIFEST.in` file, so
-they are included in the source distribution. For example (following our
-customized example):
-
-```plaintext
-recursive-include proto *.proto
-```
-
 Once this is done, the conversion of the proto files to Python files should be
 automatic. Just try building the package with:
 
@@ -83,7 +75,7 @@ python -m build
 A new command to generate the files will be also added to `setuptools`, you can
 run it manually with:
 ```sh
-python -c 'import setuptools; setuptools.setup()' build_betterproto
+python -c 'import setuptools; setuptools.setup()' compile_betterproto
 ```
 
 You can also pass the configuration options via command line for quick testing,
