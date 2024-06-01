@@ -69,9 +69,9 @@ dev-mkdocs = [
   "mkdocs-gen-files == 0.5.0",
   "mkdocs-literate-nav == 0.6.1",
   "mkdocs-macros-plugin == 1.0.5",
-  "mkdocs-material == 9.5.22",
+  "mkdocs-material == 9.5.25",
   "mkdocstrings[python] == 0.25.1",
-  "mkdocstrings-python == 1.10.1",
+  "mkdocstrings-python == 1.10.3",
   "frequenz-repo-config[lib] == 0.9.2",
 ]
 dev-mypy = [
@@ -90,11 +90,11 @@ dev-pylint = [
   "setuptools-betterproto[dev-mkdocs,dev-noxfile,dev-pytest]",
 ]
 dev-pytest = [
-  "pytest == 8.2.0",
-  "pylint == 3.2.0",                                    # We need this to check for the examples
+  "pytest == 8.2.1",
+  "pylint == 3.2.2",                                    # We need this to check for the examples
   "frequenz-repo-config[extra-lint-examples] == 0.9.2",
   "pytest-mock == 3.14.0",
-  "pytest-asyncio == 0.23.6",
+  "pytest-asyncio == 0.23.7",
 ]
 dev = [
   "setuptools-betterproto[dev-mkdocs,dev-flake8,dev-formatting,dev-mkdocs,dev-mypy,dev-noxfile,dev-pylint,dev-pytest]",
