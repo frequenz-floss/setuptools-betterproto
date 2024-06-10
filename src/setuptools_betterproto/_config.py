@@ -97,7 +97,7 @@ class ProtobufConfig:
         return cls(
             proto_path=proto_path,
             proto_glob=proto_glob,
-            include_paths=[p.strip() for p in include_paths.split(",")],
+            include_paths=[p.strip() for p in filter(None, include_paths.split(","))],
             out_path=out_path,
         )
 
