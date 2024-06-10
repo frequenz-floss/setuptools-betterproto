@@ -6,9 +6,16 @@
 import dataclasses
 import logging
 import pathlib
-import tomllib
+import sys
 from collections.abc import Sequence
-from typing import Any, Self
+from typing import Any
+
+from typing_extensions import Self
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 _logger = logging.getLogger(__name__)
 
