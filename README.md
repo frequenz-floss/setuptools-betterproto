@@ -55,7 +55,7 @@ These defaults can be changed via the `pypackage.toml` file too. For example:
 [tool.setuptools_betterproto]
 proto_path = "proto"
 include_paths = ["api-common-protos"]
-out_dir = "src"
+out_path = "src"
 ```
 
 You should add [betterproto] as a dependency too, for example:
