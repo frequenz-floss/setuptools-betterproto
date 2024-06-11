@@ -10,8 +10,15 @@
 
 ## New Features
 
-<!-- Here goes the main new features and examples or instructions on how to use them -->
+ - *Partial support* of Python 3.10:
+
+   The python package can be used as is. But for testing purposes,
+   dependencies must be installed using `--ignore-requires-python`.
+
+   ```bash
+   python -m pip install --ignore-requires-python -e .[dev]
+   ```
 
 ## Bug Fixes
 
-<!-- Here goes notable bug fixes that are worth a special mention or explanation -->
+ - Fix an issue when `include_paths` is not specified in the `pyproject.toml`.

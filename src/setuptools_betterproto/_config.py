@@ -6,9 +6,16 @@
 import dataclasses
 import logging
 import pathlib
-import tomllib
+import sys
 from collections.abc import Sequence
-from typing import Any, Self
+from typing import Any
+
+from typing_extensions import Self
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 _logger = logging.getLogger(__name__)
 
@@ -97,7 +104,7 @@ class ProtobufConfig:
         return cls(
             proto_path=proto_path,
             proto_glob=proto_glob,
-            include_paths=[p.strip() for p in include_paths.split(",")],
+            include_paths=[p.strip() for p in filter(None, include_paths.split(","))],
             out_path=out_path,
         )
 
