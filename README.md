@@ -1,3 +1,8 @@
+# Archived
+
+> [!WARNING]
+> This repository has been archived due to doubts casted about [betterproto](https://github.com/danielgtaylor/python-betterproto) being a sustaintable project.
+
 # Betterproto Setuptools plugin
 
 [![Build Status](https://github.com/frequenz-floss/setuptools-betterproto/actions/workflows/ci.yaml/badge.svg)](https://github.com/frequenz-floss/setuptools-betterproto/actions/workflows/ci.yaml)
